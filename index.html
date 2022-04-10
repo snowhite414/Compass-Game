@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Compass Game</title>
+	<style >
+		 .table {display: table;
+		 width: 300px;
+		 margin: 20px;
+		}
+		.row {display: table-row;}
+		.row > * {display: table-cell;
+		          font-size: xx-large;
+		          text-align: left;
+		          color: blue;
+		         }
+        .diagonal {transform: rotate(-45deg) translate(-5px,-5px);}
+        .row > span {color: red;
+                     font-weight: bold;
+        }
+		#arrow2 {transform: translate(-10px);}
+		 
+	</style>
+	
+</head>
+<body>
+	<noscript>
+  <p>
+    This web page uses JavaScript. For proper results,
+    you must use a web browser with JavaScript enabled.
+  </p>
+  </noscript>
+    <h1>Compass Game</h1>
+    <p>
+    	The direction letters on the <q>compass</q> are scrambled. Press the arrows to properly position the direction letters.
+    </p>
+
+    <form class="table" id="myTable">
+    	<div class="row"> 
+        <input type="button" id="arrow1" size="4" value="&leftrightarrow;" onclick="upperArrow()" class="diagonal"><span id="e">E</span>
+       </div><br><br>
+       <div class="row"> 
+        <span id="s">S</span><input type="button" id="arrow2" size="4" value="&leftrightarrow;" onclick="middleArrow()">
+        <span id="n">N</span> 
+       </div><br><br>
+       <div class="row"> 
+       <span></span><span id="w">W</span><input type="button" id="arrow3" size="4" value="&leftrightarrow;" onclick="bottomArrow()" class="diagonal"></div>
+       
+ </form>
+    <p>
+    	To restart the game, press <i>Restart,</i>enter N, S, E and W in any order in the boxes below, and the press <i>Update.</i>
+    </p>
+    <form id="myForm">
+    	<input type="button" value="Restart" onclick="restart()"><br><br>
+    	Top:
+    	<input type="text" id="top" size="1" maxlength="1" disabled class="textBox">
+    	Left:
+    	<input type="text" id="left" size="1" maxlength="1" disabled class="textBox">
+    	Right:
+    	<input type="text" id="right" size="1" maxlength="1" disabled class="textBox">
+    	Bottom:
+    	<input type="text" id="bottom" size="1" maxlength="1" disabled class="textBox"><br><br>
+    	<input type="button" id="btnUpdate" value="Update" onclick="updateCom()" disabled>
+    </form>
+    <p id="message"></p>
+    <script>
+		var textBoxes = document.getElementsByClassName("textBox");
+		var update = document.getElementById("btnUpdate");
+		var topText = document.getElementById("e");
+		var bottomText = document.getElementById("w");
+		var leftText = document.getElementById("s");
+		var rightText = document.getElementById("n");
+
+		function restart(){
+			//reset directions
+			topText.innerHTML = "";
+			bottomText.innerHTML = "";
+			leftText.innerHTML = "";
+			rightText.innerHTML = "";
+			//enable input text elements
+			for(var i = 0; i < textBoxes.length; i++){
+				textBoxes[i].disabled = false;
+			}
+			//clear textboxes
+			for(var a = 0; a < textBoxes.length; a++){
+				textBoxes[a].value = "";
+			} 
+			//enable update button
+			update.disabled = false;
+		}
+
+		function updateCom(){
+			//set directions according to user input
+			topText.innerHTML = document.getElementById("top").value.toUpperCase();
+			bottomText.innerHTML = document.getElementById("bottom").value.toUpperCase();
+			leftText.innerHTML = document.getElementById("left").value.toUpperCase();
+			rightText.innerHTML = document.getElementById("right").value.toUpperCase();
+
+             
+			//disable input text elements
+			for(var i = 0; i < textBoxes.length; i++){
+				textBoxes[i].disabled = true;
+			}
+			//disable update button
+			update.disabled = true;
+		}
+
+		function upperArrow(){
+			//get current direction of top and left
+			var top = topText.textContent;
+			var left = leftText.textContent;
+			//set the values
+			topText.innerHTML = left;
+			leftText.innerHTML = top;
+		}
+
+		function middleArrow(){
+			//get current direction of top and left
+			var right = rightText.textContent;
+			var left = leftText.textContent;
+			//set the values
+			rightText.innerHTML = left;
+			leftText.innerHTML = right;
+		}
+
+		function bottomArrow(){
+			//get current direction of top and left
+			var bottom = bottomText.textContent;
+			var right = rightText.textContent;
+			//set the values
+			rightText.innerHTML = bottom;
+			bottomText.innerHTML = right;
+		}
+	</script>
+</body>
+</html>
